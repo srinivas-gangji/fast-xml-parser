@@ -88,15 +88,15 @@ exports.validate = function (xmlData, options) {
           //self closing tag
           const attrStrStart = i - attrStr.length;
           attrStr = attrStr.substring(0, attrStr.length - 1);
-          const isValid = validateAttributeString(attrStr, options);
-          if (isValid === true) {
+          const isValidOne = validateAttributeString(attrStr, options);
+          if (isValidOne === true) {
             tagFound = true;
             //continue; //text may presents after self closing tag
           } else {
             //the result from the nested function returns the position of the error within the attribute
             //in order to get the 'true' error line, we need to calculate the position where the attribute begins (i - attrStr.length) and then add the position within the attribute
             //this gives us the absolute index in the entire xml, which we can use to find the line at last
-            return getErrorObject(isValid.err.code, isValid.err.msg, getLineNumberForPosition(xmlData, attrStrStart + isValid.err.line));
+            return getErrorObject(isValidOne.err.code, isValidOne.err.msg, getLineNumberForPosition(xmlData, attrStrStart + isValidOne.err.line));
           }
         } else if (closingTag) {
           if (!result.tagClosed) {
@@ -118,12 +118,12 @@ exports.validate = function (xmlData, options) {
             }
           }
         } else {
-          const isValid = validateAttributeString(attrStr, options);
-          if (isValid !== true) {
+          const isValidTwo = validateAttributeString(attrStr, options);
+          if (isValidTwo !== true) {
             //the result from the nested function returns the position of the error within the attribute
             //in order to get the 'true' error line, we need to calculate the position where the attribute begins (i - attrStr.length) and then add the position within the attribute
             //this gives us the absolute index in the entire xml, which we can use to find the line at last
-            return getErrorObject(isValid.err.code, isValid.err.msg, getLineNumberForPosition(xmlData, i - attrStr.length + isValid.err.line));
+            return getErrorObject(isValidTwo.err.code, isValidTwo.err.msg, getLineNumberForPosition(xmlData, i - attrStr.length + isValidTwo.err.line));
           }
 
           //if the root level has been reached before ...
